@@ -12,8 +12,10 @@ services:
         restart: on-failure
     ctrlx-datalayer-mqtt-interface:
         image: ${IMAGE_NAME2}:${IMAGE_TAG2}
-        container_name: ctrlx-datalayer-mqtt-interface
+        container_name: ctrlx-datalayer-robotui
         restart: on-failure
+        ports:
+            - 80:80
     ctrlx-datalayer-mqtt-ui:
         image: ${IMAGE_NAME3}:${IMAGE_TAG3}
         container_name: ctrlx-datalayer-mqtt-ui
