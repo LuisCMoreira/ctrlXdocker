@@ -1,16 +1,87 @@
 <!DOCTYPE html>
-
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <title>Flask Docker</title>
-    </head>
-    <body>
-        <h1>ctrlX Datalayer MQTT Interface</h1>
-        <form method="POST">
-            <label for="path">Path to top level datalayer node: </label>
-            <input name="path" />
-            <input type="submit" />
-        </form>
-    </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fetch and Write Paths</title>
+    <style>
+        body {
+            background-image: url('{{ url_for('static', filename='image.jpg') }}');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            font-family: Arial, sans-serif;
+            color: white; /* Adjust text color for better visibility */
+        }
+        .form-container {
+            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background for better readability */
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 400px;
+            margin: auto;
+        }
+    </style>
+    <script>
+        async function fetchPaths() {
+            try {
+                const response = await fetch('/paths');
+                const data = await response.json();
+                if (response.ok) {
+                    const pathsContainer = document.getElementById('paths');
+                    pathsContainer.innerHTML = '';
+                    data.forEach(path => {
+                        const option = document.createElement('option');
+                        option.value = path;
+                        option.textContent = path;
+                        pathsContainer.appendChild(option);
+                    });
+                } else {
+                    alert(`Error: ${data.error}`);
+                }
+            } catch (error) {
+                alert(`Error: ${error.message}`);
+            }
+        }
+
+        async function writeValue() {
+            const path = document.getElementById('paths').value;
+            const value = document.getElementById('value').value;
+            const type = document.getElementById('type').value;
+
+            const data = {
+                path: path,
+                value: value,
+                type: type
+            };
+
+            try {
+                const response = await fetch('/write', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+                const result = await response.json();
+                if (response.ok) {
+                    alert('Value written successfully');
+                } else {
+                    alert(`Error: ${result.error}`);
+                }
+            } catch (error) {
+                alert(`Error: ${error.message}`);
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Fetch and Write Paths from ctrlX Device</h1>
+        <button onclick="fetchPaths()">Fetch Paths</button>
+        <select id="paths" size="10" style="width: 100%;"></select>
+        <input type="text" id="value" placeholder="Value to write">
+        <input type="text" id="type" placeholder="Data type (e.g., bool8, string)">
+        <button onclick="writeValue()">Write Value</button>
+    </div>
+</body>
 </html>

@@ -2,10 +2,10 @@
 # See https://snapcraft.io/docs/getting-started
 # Snapcraft references
 # See https://snapcraft.io/docs/snapcraft-yaml-reference
-name: ctrlx-docker-mosquitto-robot
+name: ctrlx-docker-robot
 version: "1.1"
 base: core20
-summary: Containerized MQTT broker with automated topic generation from datalayer data
+summary: some test
 description: |
     This snap contains the docker images 'eclipsemosquitto:latest' and 'ctrlx-datalayer-mqtt-interface:latest'
     The files 'image.tar', 'image2.tar', 'image3.tar', 'docker-compose.yml' and 'docker-compose.env'
