@@ -4,7 +4,7 @@ cd "$parent_path"
 
 TARGET_ARCH=$1
 echo TARGET_ARCH: ${TARGET_ARCH}
-IMAGE_NAME1="ctrlx-datalayer-robotui"
+IMAGE_NAME="ctrlx-datalayer-robotui"
 IMAGE_TAG="latest"
 DOCKER_CLI=$(which docker)
 echo --- add image env variables
