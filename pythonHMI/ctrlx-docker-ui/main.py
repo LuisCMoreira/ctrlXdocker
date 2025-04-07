@@ -4,9 +4,9 @@ import ctrlXapi as ctX
 app = Flask(__name__)
 
 # ctrlX parameters
-address = "192.168.1.1"
+address = "127.0.0.1"
 user = "boschrexroth"
-password = "boschrexroth"
+password = "Equinotec2024"
 
 @app.route('/', methods=['GET'])
 def index():

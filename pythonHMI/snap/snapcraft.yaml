@@ -2,7 +2,7 @@
 # See https://snapcraft.io/docs/getting-started
 # Snapcraft references
 # See https://snapcraft.io/docs/snapcraft-yaml-reference
-name: ctrlx-docker-EQN-customUI
+name: ctrlx-docker-eqn-customui
 version: "0.9"
 base: core20
 summary: Containerized Python Flask Service to Fetch Datalayer Data over API
