@@ -6,47 +6,90 @@
     <title>Fetch and Write Paths</title>
     <style>
         body {
-            background-image: url('{{ url_for('static', filename='image.jpg') }}');
+            background-image: url('{{ url_for('static', filename='background.jpg') }}');
             background-size: cover;
             background-repeat: no-repeat;
-            background-position: center;
             font-family: Arial, sans-serif;
-            color: white; /* Adjust text color for better visibility */
+            color: white;
         }
         .form-container {
-            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background for better readability */
+            background-color: rgba(0, 0, 0, 0.5);
             padding: 20px;
             border-radius: 10px;
-            max-width: 400px;
+            max-width: 500px;
             margin: auto;
+        }
+        .path-item {
+            margin-bottom: 10px;
+        }
+        .path-item label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .path-item input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 5px;
+        }
+        /* Style for the custom alert */
+        #custom-alert {
+            display: none; /* Hidden by default */
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            z-index: 1000;
         }
     </style>
     <script>
+        function showCustomAlert(message) {
+            const alertBox = document.getElementById('custom-alert');
+            alertBox.textContent = message;
+            alertBox.style.display = 'block'; // Show the alert
+
+            // Hide the alert after 1 second
+            setTimeout(() => {
+                alertBox.style.display = 'none';
+            }, 1000);
+        }
+
         async function fetchPaths() {
             try {
-                const response = await fetch('/paths');
+                const response = await fetch('/browse');
                 const data = await response.json();
                 if (response.ok) {
-                    const pathsContainer = document.getElementById('paths');
+                    const pathsContainer = document.getElementById('paths-container');
                     pathsContainer.innerHTML = '';
-                    data.forEach(path => {
-                        const option = document.createElement('option');
-                        option.value = path;
-                        option.textContent = path;
-                        pathsContainer.appendChild(option);
-                    });
+
+                    // Check if data is an array
+                    if (Array.isArray(data)) {
+                        data.forEach(item => {
+                            const pathItem = document.createElement('div');
+                            pathItem.className = 'path-item';
+                            pathItem.innerHTML = `
+                                <label for="value-${item.path}">${item.path} (${item.type})</label>
+                                <input type="text" id="value-${item.path}" value="${item.value}" placeholder="New value">
+                                <button onclick="writeValue('${item.path}', '${item.type}')">Write Value</button>
+                            `;
+                            pathsContainer.appendChild(pathItem);
+                        });
+                    } else {
+                        showCustomAlert('Unexpected data format: ' + JSON.stringify(data));
+                    }
                 } else {
-                    alert(`Error: ${data.error}`);
+                    showCustomAlert(`Error: ${data.error}`);
                 }
             } catch (error) {
-                alert(`Error: ${error.message}`);
+                showCustomAlert(`Error: ${error.message}`);
             }
         }
 
-        async function writeValue() {
-            const path = document.getElementById('paths').value;
-            const value = document.getElementById('value').value;
-            const type = document.getElementById('type').value;
+        async function writeValue(path, type) {
+            const value = document.getElementById(`value-${path}`).value;
 
             const data = {
                 path: path,
@@ -64,24 +107,22 @@
                 });
                 const result = await response.json();
                 if (response.ok) {
-                    alert('Value written successfully');
+                    showCustomAlert('Value written successfully');
                 } else {
-                    alert(`Error: ${result.error}`);
+                    showCustomAlert(`Error: ${result.error}`);
                 }
             } catch (error) {
-                alert(`Error: ${error.message}`);
+                showCustomAlert(`Error: ${error.message}`);
             }
         }
     </script>
 </head>
 <body>
     <div class="form-container">
-        <h1>Fetch and Write Paths from ctrlX Device</h1>
+        <h1>Custom ctrlX Device HMI</h1>
         <button onclick="fetchPaths()">Fetch Paths</button>
-        <select id="paths" size="10" style="width: 100%;"></select>
-        <input type="text" id="value" placeholder="Value to write">
-        <input type="text" id="type" placeholder="Data type (e.g., bool8, string)">
-        <button onclick="writeValue()">Write Value</button>
+        <div id="paths-container"></div>
     </div>
+    <div id="custom-alert"></div>
 </body>
 </html>

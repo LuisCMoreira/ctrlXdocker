@@ -2,16 +2,13 @@
 # See https://snapcraft.io/docs/getting-started
 # Snapcraft references
 # See https://snapcraft.io/docs/snapcraft-yaml-reference
-name: ctrlx-docker-mosquitto-robot
-version: "1.1"
+name: ctrlx-docker-EQN-customUI
+version: "0.9"
 base: core20
-summary: Containerized MQTT broker with automated topic generation from datalayer data
+summary: Containerized Python Flask Service to Fetch Datalayer Data over API
 description: |
-    This snap contains the docker images 'eclipsemosquitto:latest' and 'ctrlx-datalayer-mqtt-interface:latest'
-    The files 'image.tar', 'image2.tar', 'image3.tar', 'docker-compose.yml' and 'docker-compose.env'
-    are provided via content-interface 'docker-compose'.
-    The content-interface 'docker-volumes' provides the container access to a directory inside this snap with write permissions.
-grade: stable
+    This snap contains the docker image of a simple flask aplication.
+grade: draft
 confinement: strict
 
 parts:

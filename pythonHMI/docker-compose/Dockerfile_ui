@@ -15,8 +15,7 @@ RUN echo 'Installing requirements in image' &&\
     apt-get autoclean &&\
     apt-get autoremove
 
-LABEL description="ctrlX Datalayer MQTT UI"
-LABEL maintainer="S-Gilk <https://github.com/S-Gilk>"
+LABEL description="ctrlX UI"
 
 # Run the application
 CMD ["python3", "/app/main.py"]
