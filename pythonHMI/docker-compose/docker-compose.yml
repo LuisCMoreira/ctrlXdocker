@@ -3,5 +3,5 @@ services:
         image: ${IMAGE_NAME}:${IMAGE_TAG}
         container_name: ctrlx-datalayer-ui
         ports:
-            - 8080:80
+            - 5000:5000
         restart: on-failure

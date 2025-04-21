@@ -7,10 +7,7 @@ version: "1.1"
 base: core20
 summary: some test
 description: |
-    This snap contains the docker images 'eclipsemosquitto:latest' and 'ctrlx-datalayer-mqtt-interface:latest'
-    The files 'image.tar', 'image2.tar', 'image3.tar', 'docker-compose.yml' and 'docker-compose.env'
-    are provided via content-interface 'docker-compose'.
-    The content-interface 'docker-volumes' provides the container access to a directory inside this snap with write permissions.
+    This snap contains the docker image
 grade: stable
 confinement: strict
 

@@ -4,7 +4,7 @@ import ctrlXapi as ctX
 app = Flask(__name__)
 
 # ctrlX parameters
-address = "127.0.0.1"
+address = "host.docker.internal"
 user = "boschrexroth"
 password = "Equinotec2024"
 

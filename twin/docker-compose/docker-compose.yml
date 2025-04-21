@@ -4,4 +4,4 @@ services:
         container_name: ctrlx-datalayer-robotui
         restart: on-failure
         ports:
-            - 8081:80
+            - 8080:80
